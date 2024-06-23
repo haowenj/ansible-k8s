@@ -1,0 +1,21 @@
+---
+- hosts: master
+  name: create token
+  tasks:
+    - name: kubeadm create token
+      command: kubeadm token create  --print-join-command
+      register: cmd_result
+    - name: set token
+      set_fact:
+        join_command: "{{ cmd_result.stdout }}"
+- hosts: worker
+  name: worker node join
+  tasks:
+    - name: set token
+      set_fact:
+        my_command: "{{ hostvars[groups['master'][0]].join_command }}"
+    - name: kubeadm join
+      command: "{{ my_command }}"
+    - name: debug debug
+      debug:
+        msg: "{{ hostvars[groups['master'][0]].join_command }}" 

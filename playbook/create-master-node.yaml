@@ -1,0 +1,12 @@
+- hosts: master
+  name: create master node
+  tasks:
+    - name: add chmod
+      command: chmod a+x /usr/local/bin/create-master-node.sh
+    - name: start init
+      command: "chdir=/root /usr/local/bin/create-master-node.sh"
+      register: cmd_result
+    - name: Show init result
+      debug:
+        msg: "{{cmd_result.stdout_lines}}"  # 使用debug模块显示输出
+

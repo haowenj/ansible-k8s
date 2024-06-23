@@ -1,0 +1,12 @@
+- hosts: k8s
+  name: install pkg
+  tasks:
+    - name: add chmod
+      command: chmod a+x /usr/local/bin/install-k8s-pkg.sh
+    - name: start install pkg
+      command: /usr/local/bin/install-k8s-pkg.sh
+      register: cmd_result
+    - name: Show init result
+      debug:
+        msg: "{{cmd_result.stdout_lines}}"  # 使用debug模块显示输出
+

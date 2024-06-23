@@ -1,0 +1,10 @@
+- hosts: master
+  name: deploy calico
+  tasks:
+    - name: kubectl apply -f calico.yaml
+      command: "chdir=/root kubectl --kubeconfig /etc/kubernetes/admin.conf apply -f calico.yaml"
+      register: cmd_result
+    - name: Show deploy  result
+      debug:
+        msg: "{{cmd_result.stdout_lines}}"  # 使用debug模块显示输出
+
